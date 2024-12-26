@@ -16,6 +16,8 @@ app.use(morgan('dev'));
 app.use('/api/v1/test',require('./routes/testroute'));
 app.use('/api/v1/auth',require('./routes/authroutes'));
 app.use('/api/v1/inventory',require('./routes/inventoryRoutes'));
+app.use('/api/v1/analytics',require('./routes/analyticsRoutes'));
+app.use('/api/v1/admin',require('./routes/adminRoutes'));
 const PORT=process.env.PORT || 8080;
 app.listen(PORT,( )=>{
     console.log(

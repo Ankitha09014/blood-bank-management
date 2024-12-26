@@ -1,62 +1,50 @@
-const { strip } = require('colors');
-const mongoose =require('mongoose');
-const userSchema=new mongoose.Schema({
-    role:{
-        type:String,
-        required:[true,'role is required'],
-        enum:['admin','organization','donar','hospital']
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+    role: {
+        type: String,
+        required: [true, 'role is required'],
+        enum: ['admin', 'organisation', 'donor', 'hospital'] // Ensure spelling is consistent here
     },
-    name:{
-        type:String,
-        required:function(){
-            if(this.role ==='user' || this.role ==='admin'){
-                return true
-            }
-            return false
+    name: {
+        type: String,
+        required: function() {
+            return this.role === 'admin'; // Updated to only check for 'admin' if 'user' is not part of your roles
         }
     },
-    organisationName:{
-        type:String,
-        required:function(){
-            if(this.role==='organisation'){
-                return true
-
-            }
-            return false
+    organisationName: {
+        type: String,
+        required: function() {
+            return this.role === 'organisation';
         }
     },
-    hospitalName:{
-        type:String,
-        required:function(){
-            if(this.role==='hospital'){
-                return true
-
-            }
-            return false
+    hospitalName: {
+        type: String,
+        required: function() {
+            return this.role === 'hospital';
         }
     },
-    email:{
-        type:String,
-        require:[true,'email is required'],
-        unique:true
+    email: {
+        type: String,
+        required: [true, 'email is required'],
+        unique: true
     },
-    password:{
-        type:String,
-        required:[true,'password is required'],
+    password: {
+        type: String,
+        required: [true, 'password is required'],
     },
-    website:{
-        type:String
+    website: {
+        type: String
     },
-    address:{
-        type:String,
-        required:[true,'address is  required'],
+    address: {
+        type: String,
+        required: [true, 'address is required'],
     },
-    phone:{
-        type:String,
-        required:[true,'phone no is required'],
+    phone: {
+        type: String,
+        required: [true, 'phone no is required'],
     },
-}, 
-{timestamps:true}
-);
+}, { timestamps: true });
 
-module.exports=mongoose.model('users',userSchema);
+// Check if the model already exists, and only define it if it does not
+module.exports = mongoose.models.users || mongoose.model('users', userSchema);
